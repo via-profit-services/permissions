@@ -11,8 +11,7 @@
     "keywords": [
         "graphql",
         "via-profit",
-        "permissions",
-        "users"
+        "permissions"
     ],
     "scripts": {
         "dist": "yarn lint && yarn build:dist",
