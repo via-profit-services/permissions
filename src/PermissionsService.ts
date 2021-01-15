@@ -22,31 +22,6 @@ class PermissionsService implements PermissionsServiceInterface {
     this.props = props;
   }
 
-  // public setPrivileges(privileges: Privileges) {
-  //   this.privileges = privileges;
-  // }
-
-  // public setPermissions(permissions: Permissions) {
-  //   this.permissions = permissions;
-  // }
-
-  // public setRequirePrivileges(privileges: Privileges): void {
-  //   this.requirePrivileges = privileges;
-  // }
-
-  // public getPrivileges(): Privileges {
-  //   return this.privileges;
-  // }
-
-  // public getPermissions(): Permissions {
-  //   return this.permissions;
-  // }
-
-  // public getRequirePrivileges(): Privileges {
-  //   return this.requirePrivileges;
-  // }
-
-
   public resolvePermissions (props: ResolvePermissionsProps): boolean {
     const { context } = this.props;
 
@@ -135,29 +110,29 @@ class PermissionsService implements PermissionsServiceInterface {
     if (this.defaultAccess === 'restrict' && result) {
 
       if (!grant.length) {
-        console.log({
-          entityName,
-          result: 'RESTRICT FALLBACK',
-          privileges: this.privileges,
-          grant,
-          restrict,
-          needToGrant,
-          needToRestrict,
-        });
+        // console.log({
+        //   entityName,
+        //   result: 'RESTRICT FALLBACK',
+        //   privileges: this.privileges,
+        //   grant,
+        //   restrict,
+        //   needToGrant,
+        //   needToRestrict,
+        // });
 
         return false;
       }
     }
 
-    console.log({
-      entityName,
-      result,
-      privileges: this.privileges,
-      grant,
-      restrict,
-      needToGrant,
-      needToRestrict,
-    })
+    // console.log({
+    //   entityName,
+    //   result,
+    //   privileges: this.privileges,
+    //   grant,
+    //   restrict,
+    //   needToGrant,
+    //   needToRestrict,
+    // })
 
     return result;
   }
