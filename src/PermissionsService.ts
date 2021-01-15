@@ -38,49 +38,39 @@ class PermissionsService implements PermissionsServiceInterface {
 
   public resolvePermissions (props: ResolvePermissionsProps): boolean {
     const { context } = this.props;
-    const { privileges, enableIntrospection, defaultAccess } = props;
+    const { privileges, enableIntrospection, defaultAccess, typeName, fieldName } = props;
+    const entityName = `${typeName}.${fieldName}`;
 
     const resolver: PermissionsResolverFunction = (params) => {
-      const { typeName, fieldName, permissions } = params;
-      const pathWithoutField = `${typeName}.${SERVICE_PRIVILEGES.asterisk}`;
-      const pathWithField = `${typeName}.${fieldName}`;
-      const resolverWithoutField = permissions[pathWithoutField];
-      const resolverWithField = permissions[pathWithField];
+      const { typeName, permissions, requirePrivileges } = params;
+
+      const fieldResolvers = [
+        permissions[entityName],
+        permissions[`${typeName}.${SERVICE_PRIVILEGES.asterisk}`],
+      ].filter((r) => r);
 
       const res: ReturnType<PermissionsResolverFunction> = {
-        grant: [],
+        grant: [...requirePrivileges || []],
         restrict: [],
       };
 
-      // append permission without field (e.g.: «MyType.*)
-      if (typeof resolverWithoutField === 'function') {
-        const f = (resolverWithoutField as PermissionsResolverFunction)(params);
-        res.grant = res.grant.concat([...f.grant || []]);
-        res.restrict = res.restrict.concat([...f.restrict || []]);
-      }
+      fieldResolvers.forEach((fieldResolver) => {
+        if (typeof fieldResolver === 'function') {
+          const { grant, restrict } = (fieldResolver as PermissionsResolverFunction)(params);
+          res.grant = res.grant.concat([...grant || []]);
+          res.restrict = res.restrict.concat([...restrict || []]);
+        }
 
-      if (typeof resolverWithoutField === 'object') {
-        const f = (resolverWithoutField as PermissionsResolverObject);
-        res.grant = res.grant.concat([...f.grant || []]);
-        res.restrict = res.restrict.concat([...f.restrict || []]);
-      }
+        if (typeof fieldResolver === 'object') {
+          const { grant, restrict } = (fieldResolver as PermissionsResolverObject);
+          res.grant = res.grant.concat([...grant || []]);
+          res.restrict = res.restrict.concat([...restrict || []]);
+        }
+      });
 
-      // append permission with field (e.g.: «MyType.field»)
-      if (typeof resolverWithField === 'function') {
-        const f = (resolverWithField as PermissionsResolverFunction)(params);
-        // console.log({ f })
-        res.grant = res.grant.concat([...f.grant || []]);
-        res.restrict = res.restrict.concat([...f.restrict || []]);
-      }
-
-      if (typeof resolverWithField === 'object') {
-        const f = (resolverWithField as PermissionsResolverObject);
-        res.grant = res.grant.concat([...f.grant || []]);
-        res.restrict = res.restrict.concat([...f.restrict || []]);
-      }
 
       // introspection control
-      if (INTROSPECTION_FIELDS.includes(pathWithField)) {
+      if (INTROSPECTION_FIELDS.includes(entityName)) {
         res.grant = enableIntrospection ? [SERVICE_PRIVILEGES.asterisk] : [];
         res.restrict = !enableIntrospection ? [SERVICE_PRIVILEGES.asterisk] : [];
       }
@@ -99,7 +89,6 @@ class PermissionsService implements PermissionsServiceInterface {
 
       return res;
     }
-
 
     const { restrict, grant } = resolver({
       ...props,
@@ -135,8 +124,8 @@ class PermissionsService implements PermissionsServiceInterface {
 
       if (!grant.length) {
         // console.log({
+        //   entityName,
         //   result: 'RESTRICT FALLBACK',
-        //   typeName,
         //   privileges,
         //   grant,
         //   restrict,
@@ -149,8 +138,8 @@ class PermissionsService implements PermissionsServiceInterface {
     }
 
     // console.log({
+    //   entityName,
     //   result,
-    //   typeName,
     //   privileges,
     //   grant,
     //   restrict,
