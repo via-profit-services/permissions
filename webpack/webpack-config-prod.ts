@@ -50,10 +50,6 @@ Contact    ${packageInfo.support}
             path.resolve(__dirname, '../src/@types/index.d.ts'),
             path.resolve(__dirname, '../dist/index.d.ts'),
           );
-          fs.copyFileSync(
-            path.resolve(__dirname, '../src/@types/schema.d.ts'),
-            path.resolve(__dirname, '../dist/schema.d.ts'),
-          );
           callback();
         });
 
