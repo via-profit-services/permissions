@@ -62,16 +62,12 @@ declare module '@via-profit-services/permissions' {
 
    export type ValidatioRuleMiddleware = (props: {
     context: Context;
-    configuration: Required<Configuration>;
     config: MiddlewareProps['config'];
   }) => MaybePromise<ValidationRule>;
 
-  export type ResolvePermissionsProps = Required<Configuration> & {
+  export type ResolvePermissionsProps = {
     typeName: string;
     fieldName: string;
-    privileges: string[];
-    enableIntrospection: boolean;
-    permissions: Record<string, PermissionsResolver>;
   };
 
   /**
@@ -85,19 +81,17 @@ declare module '@via-profit-services/permissions' {
     props: PermissionsServiceProps;
     permissions: Permissions;
     privileges: Privileges;
+    requirePrivileges: Privileges;
+    defaultAccess: 'grant' | 'restrict';
+    enableIntrospection: boolean;
 
     constructor(props: PermissionsServiceProps);
 
-    setPermissions(permissions: Permissions): void;
-    setPrivileges(list: Privileges): void;
-    getPrivileges(): Privileges;
-    getPermissions(): Permissions;
     resolvePermissions(props: ResolvePermissionsProps): boolean;
   }
 
   export const INTROSPECTION_FIELDS: string[];
-  export const SERVICE_PRIVILEGES: Record<string, string>;
-  export const DEFAULT_PERMISSIONS: Record<string, PermissionsResolver>;
+  export const ASTERISK: '*';
   export const factory: PermissionsMiddlewareFactory;
 }
 

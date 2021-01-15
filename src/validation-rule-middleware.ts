@@ -2,11 +2,7 @@ import type { ValidatioRuleMiddleware } from '@via-profit-services/permissions';
 import { GraphQLError, BREAK } from 'graphql';
 
 const validationRuleMiddleware: ValidatioRuleMiddleware = async (props) => {
-  const { context, configuration, config } = props;
-  const {
-    permissions, enableIntrospection,
-    defaultAccess, requirePrivileges,
-  } = configuration;
+  const { context, config } = props;
   const { services, logger } = context;
   const { debug } = config;
 
@@ -39,17 +35,10 @@ const validationRuleMiddleware: ValidatioRuleMiddleware = async (props) => {
         node.selections.forEach((selectionNode) => {
           if (selectionNode.kind === 'Field') {
             const fieldName = selectionNode.name.value;
+            const privileges = services.permissions.privileges;
             const validationResult = services.permissions.resolvePermissions({
-              permissions: {
-                ...services.permissions.getPermissions(),
-                ...permissions,
-              },
-              privileges: services.permissions.getPrivileges(),
               typeName,
               fieldName,
-              enableIntrospection,
-              requirePrivileges,
-              defaultAccess,
             });
 
             if (!validationResult) {
@@ -59,8 +48,8 @@ const validationRuleMiddleware: ValidatioRuleMiddleware = async (props) => {
               ];
 
               if (debug) {
-                if (services.permissions.getPrivileges().length) {
-                  errMessage.push(`Your privileges: ${services.permissions.getPrivileges().join('; ')}`);
+                if (privileges.length) {
+                  errMessage.push(`Your privileges: ${privileges.join('; ')}`);
                 } else {
                   errMessage.push('You don\'t have any privileges');
                 }

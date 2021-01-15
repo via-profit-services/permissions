@@ -8,49 +8,61 @@ import type {
   PermissionsResolverFunction,
 } from '@via-profit-services/permissions';
 
-import { SERVICE_PRIVILEGES, INTROSPECTION_FIELDS } from './constants';
+import { ASTERISK, INTROSPECTION_FIELDS } from './constants';
 
 class PermissionsService implements PermissionsServiceInterface {
   props: PermissionsServiceProps;
   permissions: Permissions = {};
   privileges: Privileges = [];
+  requirePrivileges: Privileges = [];
+  defaultAccess: 'grant' | 'restrict' = 'restrict';
+  enableIntrospection = false;
 
   public constructor(props: PermissionsServiceProps) {
     this.props = props;
   }
 
-  public setPrivileges(privileges: Privileges) {
-    this.privileges = privileges;
-  }
+  // public setPrivileges(privileges: Privileges) {
+  //   this.privileges = privileges;
+  // }
 
-  public setPermissions(permissions: Permissions) {
-    this.permissions = permissions;
-  }
+  // public setPermissions(permissions: Permissions) {
+  //   this.permissions = permissions;
+  // }
 
-  public getPrivileges(): Privileges {
-    return this.privileges;
-  }
+  // public setRequirePrivileges(privileges: Privileges): void {
+  //   this.requirePrivileges = privileges;
+  // }
 
-  public getPermissions(): Permissions {
-    return this.permissions;
-  }
+  // public getPrivileges(): Privileges {
+  //   return this.privileges;
+  // }
+
+  // public getPermissions(): Permissions {
+  //   return this.permissions;
+  // }
+
+  // public getRequirePrivileges(): Privileges {
+  //   return this.requirePrivileges;
+  // }
 
 
   public resolvePermissions (props: ResolvePermissionsProps): boolean {
     const { context } = this.props;
-    const { privileges, enableIntrospection, defaultAccess, typeName, fieldName } = props;
+
+    const { typeName, fieldName } = props;
     const entityName = `${typeName}.${fieldName}`;
 
     const resolver: PermissionsResolverFunction = (params) => {
-      const { typeName, permissions, requirePrivileges } = params;
+      const { typeName } = params;
 
       const fieldResolvers = [
-        permissions[entityName],
-        permissions[`${typeName}.${SERVICE_PRIVILEGES.asterisk}`],
+        this.permissions[entityName],
+        this.permissions[`${typeName}.${ASTERISK}`],
       ].filter((r) => r);
 
       const res: ReturnType<PermissionsResolverFunction> = {
-        grant: [...requirePrivileges || []],
+        grant: [...this.requirePrivileges || []],
         restrict: [],
       };
 
@@ -71,20 +83,20 @@ class PermissionsService implements PermissionsServiceInterface {
 
       // introspection control
       if (INTROSPECTION_FIELDS.includes(entityName)) {
-        res.grant = enableIntrospection ? [SERVICE_PRIVILEGES.asterisk] : [];
-        res.restrict = !enableIntrospection ? [SERVICE_PRIVILEGES.asterisk] : [];
+        res.grant = this.enableIntrospection ? [ASTERISK] : [];
+        res.restrict = !this.enableIntrospection ? [ASTERISK] : [];
       }
 
       // correct asterisks in grant «*»
       // from grant: ['priv1', '*', 'priv2'] to grant: ['*']
-      if (res.grant.includes(SERVICE_PRIVILEGES.asterisk)) {
-        res.grant = [SERVICE_PRIVILEGES.asterisk];
+      if (res.grant.includes(ASTERISK)) {
+        res.grant = [ASTERISK];
       }
 
       // correct asterisks in restrict «*»
       // from restrict: ['priv1', '*', 'priv2'] to restrict: ['*']
-      if (res.restrict.includes(SERVICE_PRIVILEGES.asterisk)) {
-        res.restrict = [SERVICE_PRIVILEGES.asterisk];
+      if (res.restrict.includes(ASTERISK)) {
+        res.restrict = [ASTERISK];
       }
 
       return res;
@@ -97,55 +109,55 @@ class PermissionsService implements PermissionsServiceInterface {
 
     // combine restrict matches array
     const needToRestrict = [...restrict].map((negative) => {
-      if (negative === SERVICE_PRIVILEGES.asterisk) {
+      if (negative === ASTERISK) {
         return true;
       }
 
-      return privileges.includes(negative);
+      return this.privileges.includes(negative);
     }).includes(true);
 
 
     // combine grant matches array
-    const needToGrant = !grant.length ? (defaultAccess === 'grant') : grant.map((positive) => {
+    const needToGrant = !grant.length ? (this.defaultAccess === 'grant') : grant.map((positive) => {
       if (
-        privileges.includes(SERVICE_PRIVILEGES.asterisk) ||
-        positive === SERVICE_PRIVILEGES.asterisk
+        this.privileges.includes(ASTERISK) ||
+        positive === ASTERISK
         ) {
         return true;
       }
 
-      return privileges.includes(positive);
+      return this.privileges.includes(positive);
     }).every((elem) => elem);
 
     const result = !needToRestrict && needToGrant;
 
     // check to default access
-    if (defaultAccess === 'restrict' && result) {
+    if (this.defaultAccess === 'restrict' && result) {
 
       if (!grant.length) {
-        // console.log({
-        //   entityName,
-        //   result: 'RESTRICT FALLBACK',
-        //   privileges,
-        //   grant,
-        //   restrict,
-        //   needToGrant,
-        //   needToRestrict,
-        // });
+        console.log({
+          entityName,
+          result: 'RESTRICT FALLBACK',
+          privileges: this.privileges,
+          grant,
+          restrict,
+          needToGrant,
+          needToRestrict,
+        });
 
         return false;
       }
     }
 
-    // console.log({
-    //   entityName,
-    //   result,
-    //   privileges,
-    //   grant,
-    //   restrict,
-    //   needToGrant,
-    //   needToRestrict,
-    // })
+    console.log({
+      entityName,
+      result,
+      privileges: this.privileges,
+      grant,
+      restrict,
+      needToGrant,
+      needToRestrict,
+    })
 
     return result;
   }

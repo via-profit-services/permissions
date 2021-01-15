@@ -4,9 +4,9 @@ const anyMiddleware: Middleware = (props) => {
 
   const { context } = props;
   const { services } = context;
-const auth = true;
-  services.permissions.setPermissions({
-    ...services.permissions.getPermissions(),
+  const auth = true;
+  services.permissions.permissions = {
+    ...services.permissions.permissions,
     'Query.*': () => ({
       restrict: !auth ? ['*'] : [],
     }),
@@ -14,10 +14,10 @@ const auth = true;
     'InfoQuery.version': {
       grant: ['reader'],
     },
-  });
+  };
 
-  const privileges = ['reader' ].concat(services.permissions.getPrivileges());
-  services.permissions.setPrivileges([...new Set(privileges)]);
+  const privileges = ['reader', 'server' ].concat(services.permissions.privileges);
+  services.permissions.privileges = ([...new Set(privileges)]);
 
 
   return {};
