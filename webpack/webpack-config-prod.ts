@@ -10,7 +10,6 @@ import webpackBaseConfig from './webpack-config-base';
 const webpackProdConfig: Configuration = merge(webpackBaseConfig, {
   entry: {
     index: path.resolve(__dirname, '../src/index.ts'),
-    schema: path.resolve(__dirname, '../src/schema.graphql'),
   },
   optimization: {
     minimize: false,
