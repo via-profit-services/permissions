@@ -34,7 +34,6 @@ const accountsMiddlewareFactory: PermissionsMiddlewareFactory = async (props) =>
     pool.validationRule = await validationRuleMiddleware({
       context: pool.context,
       config: props.config,
-      configuration,
     });
 
     return pool;

@@ -18,9 +18,6 @@ const server = http.createServer(app);
 
   const permissionsMiddleware = await permissions.factory({
     enableIntrospection: true,
-    permissions: {
-      'Query.info': { grant: ['*'] },
-    },
   });
 
 
