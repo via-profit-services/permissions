@@ -1,6 +1,6 @@
 declare module '@via-profit-services/permissions' {
   import { Middleware, MiddlewareProps, Context, MaybePromise } from '@via-profit-services/core';
-  import { ValidationRule } from 'graphql';
+  import { ValidationRule, VisitFn, SelectionSetNode, ValidationContext } from 'graphql';
   
   export interface Configuration {
 
@@ -68,6 +68,14 @@ declare module '@via-profit-services/permissions' {
   export type ResolvePermissionsProps = {
     typeName: string;
     fieldName: string;
+    visitor: {
+      node: Parameters<VisitFn<any>>[0];
+      key: Parameters<VisitFn<any>>[1];
+      parent: Parameters<VisitFn<any>>[2];
+      path: Parameters<VisitFn<any>>[3];
+      ancestors: Parameters<VisitFn<any>>[4];
+      validationContext: ValidationContext;
+    };
   };
 
   /**
