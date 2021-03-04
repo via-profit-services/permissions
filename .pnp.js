@@ -48,7 +48,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/webpack-node-externals", "npm:2.5.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:4.9.1"],
             ["@typescript-eslint/parser", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:4.9.1"],
-            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#file://home/dhs/Projects/@via-profit-services/core/package-1.0.0-rc.1.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A."],
+            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:1.0.2"],
             ["@via-profit-services/eslint-config", "npm:0.1.11"],
             ["cross-env", "npm:6.0.3"],
             ["dataloader", "npm:2.0.0"],
@@ -721,17 +721,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@via-profit-services/core", [
-        ["file://home/dhs/Projects/@via-profit-services/core/package-1.0.0-rc.1.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A.", {
-          "packageLocation": "./.yarn/cache/@via-profit-services-core-file-5f5896e937-061625c201.zip/node_modules/@via-profit-services/core/",
+        ["npm:1.0.2", {
+          "packageLocation": "./.yarn/cache/@via-profit-services-core-npm-1.0.2-8d54b96671-18dc82c931.zip/node_modules/@via-profit-services/core/",
           "packageDependencies": [
-            ["@via-profit-services/core", "file://home/dhs/Projects/@via-profit-services/core/package-1.0.0-rc.1.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A."]
+            ["@via-profit-services/core", "npm:1.0.2"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#file://home/dhs/Projects/@via-profit-services/core/package-1.0.0-rc.1.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A.", {
-          "packageLocation": "./.yarn/$$virtual/@via-profit-services-core-virtual-c0087d76ec/0/cache/@via-profit-services-core-file-5f5896e937-061625c201.zip/node_modules/@via-profit-services/core/",
+        ["virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:1.0.2", {
+          "packageLocation": "./.yarn/$$virtual/@via-profit-services-core-virtual-38984b8573/0/cache/@via-profit-services-core-npm-1.0.2-8d54b96671-18dc82c931.zip/node_modules/@via-profit-services/core/",
           "packageDependencies": [
-            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#file://home/dhs/Projects/@via-profit-services/core/package-1.0.0-rc.1.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A."],
+            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:1.0.2"],
             ["@types/dataloader", null],
             ["@types/express", "npm:4.17.9"],
             ["@types/graphql", null],
@@ -795,7 +795,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/webpack-node-externals", "npm:2.5.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:4.9.1"],
             ["@typescript-eslint/parser", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:4.9.1"],
-            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#file://home/dhs/Projects/@via-profit-services/core/package-1.0.0-rc.1.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A."],
+            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:1.0.2"],
             ["@via-profit-services/eslint-config", "npm:0.1.11"],
             ["cross-env", "npm:6.0.3"],
             ["dataloader", "npm:2.0.0"],

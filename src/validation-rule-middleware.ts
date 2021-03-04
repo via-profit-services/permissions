@@ -9,7 +9,7 @@ const validationRuleMiddleware: ValidatioRuleMiddleware = async (props) => {
   let isIntrospection = false;
 
   return (validationContext) => ({
-    enter: (node) => {
+    enter: (node, key, parent, path, ancestors) => {
       const type = validationContext.getType();
 
       // skip if is not a GraphQL type
@@ -39,6 +39,14 @@ const validationRuleMiddleware: ValidatioRuleMiddleware = async (props) => {
             const validationResult = services.permissions.resolvePermissions({
               typeName,
               fieldName,
+              visitor: {
+                node,
+                key,
+                parent,
+                path,
+                ancestors,
+                validationContext,
+              },
             });
 
             if (!validationResult) {
