@@ -1,6 +1,6 @@
 declare module '@via-profit-services/permissions' {
   import { Middleware, MiddlewareProps, Context, MaybePromise } from '@via-profit-services/core';
-  import { ValidationRule, VisitFn, SelectionSetNode, ValidationContext } from 'graphql';
+  import { ValidationRule, VisitFn, ASTNode, SelectionSetNode, ValidationContext } from 'graphql';
   
   export interface Configuration {
 
@@ -69,11 +69,11 @@ declare module '@via-profit-services/permissions' {
     typeName: string;
     fieldName: string;
     visitor: {
-      node: Parameters<VisitFn<any>>[0];
-      key: Parameters<VisitFn<any>>[1];
-      parent: Parameters<VisitFn<any>>[2];
-      path: Parameters<VisitFn<any>>[3];
-      ancestors: Parameters<VisitFn<any>>[4];
+      node: Parameters<VisitFn<ASTNode>>[0];
+      key: Parameters<VisitFn<ASTNode>>[1];
+      parent: Parameters<VisitFn<ASTNode>>[2];
+      path: Parameters<VisitFn<ASTNode>>[3];
+      ancestors: Parameters<VisitFn<ASTNode>>[4];
       validationContext: ValidationContext;
     };
   };
