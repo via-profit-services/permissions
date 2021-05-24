@@ -5,7 +5,6 @@ import express from 'express';
 import http from 'http';
 
 import * as permissions from '../index';
-import anyMiddleware from './anyMiddleware';
 import schema from './schema';
 
 dotenv.config();
@@ -16,7 +15,12 @@ const server = http.createServer(app);
 (async () => {
 
 
-  const permissionsMiddleware = await permissions.factory({
+  const permissionsMiddleware = permissions.factory({
+    permissions: {
+      'Query.*': () => 'Reject of Query global',
+      'Query.info': () => 'Reject info',
+      'Query.core': () => true,
+    },
     enableIntrospection: true,
   });
 
@@ -27,11 +31,10 @@ const server = http.createServer(app);
     debug: true,
     middleware: [
       permissionsMiddleware,
-      anyMiddleware,
     ],
   });
 
-  app.use(graphQLExpress);
+  app.use('/graphql', graphQLExpress);
   server.listen(PORT, () => {
 
 

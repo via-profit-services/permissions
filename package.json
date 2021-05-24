@@ -1,7 +1,7 @@
 {
     "name": "@via-profit-services/permissions",
     "support": "https://via-profit.ru",
-    "version": "1.0.2",
+    "version": "1.1.1",
     "description": "Via Profit Permissions Schema",
     "main": "dist/index.js",
     "engines": {
@@ -60,10 +60,9 @@
         "@types/webpack-node-externals": "^2.5.0",
         "@typescript-eslint/eslint-plugin": "^4.9.1",
         "@typescript-eslint/parser": "^4.9.1",
-        "@via-profit-services/core": "^1.0.3",
+        "@via-profit-services/core": "^1.1.8",
         "@via-profit-services/eslint-config": "^0.1.11",
         "cross-env": "^6.0.3",
-        "dataloader": "^2.0.0",
         "dotenv": "^8.2.0",
         "eslint": "^7.12.1",
         "eslint-config-prettier": "^6.15.0",

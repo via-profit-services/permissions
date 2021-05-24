@@ -1,6 +1,5 @@
 import factory from './middleware-factory';
 
-export * from './constants';
-export {
-  factory,
-};
+export * from './helpers';
+
+export { factory };

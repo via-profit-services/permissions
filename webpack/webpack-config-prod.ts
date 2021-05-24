@@ -11,9 +11,6 @@ const webpackProdConfig: Configuration = merge(webpackBaseConfig, {
   entry: {
     index: path.resolve(__dirname, '../src/index.ts'),
   },
-  optimization: {
-    minimize: false,
-  },
   output: {
     path: path.join(__dirname, '../dist/'),
     filename: '[name].js',

@@ -496,9 +496,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@via-profit-services/core@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@via-profit-services/core@npm:1.0.3"
+"@via-profit-services/core@npm:^1.1.8":
+  version: 1.1.8
+  resolution: "@via-profit-services/core@npm:1.1.8"
   dependencies:
     bufferutil: ^4.0.2
     content-type: ^1.0.4
@@ -517,7 +517,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: d740cca23d5f16862036c60695701c9c5cde536b6eb4b50987694739f94804ed2463508c90c4e7834d4a11b0c9dab635314fe092fb9a0f57effc5cea8b199a29
+  checksum: 30d05d1b746eac359ad6f2e8d9dff4eb82f7e3a87c55d03d5ae72b0a20bacd70eb98fb4005c70e2fc5fa8a694ae0988e6fe4aff583d98a36210fe2f35a9566f0
   languageName: node
   linkType: hard
 
@@ -543,10 +543,9 @@ __metadata:
     "@types/webpack-node-externals": ^2.5.0
     "@typescript-eslint/eslint-plugin": ^4.9.1
     "@typescript-eslint/parser": ^4.9.1
-    "@via-profit-services/core": ^1.0.3
+    "@via-profit-services/core": ^1.1.8
     "@via-profit-services/eslint-config": ^0.1.11
     cross-env: ^6.0.3
-    dataloader: ^2.0.0
     dotenv: ^8.2.0
     eslint: ^7.12.1
     eslint-config-prettier: ^6.15.0
@@ -1868,13 +1867,6 @@ __metadata:
   dependencies:
     assert-plus: ^1.0.0
   checksum: 5959409ee42dc4bdbf3fa384b801ece580ca336658bb0342ffab0099b3fc6bf9b3e239e1b82dcc4fcaeee315353e08f2eae47b0928a6a579391598c44958afa1
-  languageName: node
-  linkType: hard
-
-"dataloader@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "dataloader@npm:2.0.0"
-  checksum: 0165c2e80751d269c33d2a14b0078a4f3853cb010e2531e7aa99523aba8d0cdc922b9ad67e4c2bb9074c90e0ee0a41b6e7f5f63c40d31224a71c8a0b703f4be3
   languageName: node
   linkType: hard
 
