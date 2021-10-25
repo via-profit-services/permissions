@@ -1,12 +1,23 @@
 declare module '@via-profit-services/permissions' {
   import { Middleware, Context, MaybePromise } from '@via-profit-services/core';
-  import { GraphQLFieldResolver, GraphQLResolveInfo, ValidationRule, GraphQLField, GraphQLObjectType, GraphQLSchema } from 'graphql';
+  import {
+    GraphQLFieldResolver,
+    GraphQLResolveInfo,
+    ValidationRule,
+    GraphQLField,
+    GraphQLObjectType,
+    GraphQLSchema,
+  } from 'graphql';
 
   export type Configuration = {
     permissions: PermissionsMap;
     enableIntrospection?: boolean;
   };
-  export type IntrospectionProtector = (config: Configuration) => ValidationRule;
+  export type IntrospectionProtectorProps = {
+    configuration: Configuration;
+    context: Context;
+  };
+  export type IntrospectionProtector = (config: IntrospectionProtectorProps) => ValidationRule;
   export type MiddlewareFactory = (config: Configuration) => Middleware;
 
   export type PermissionResolverProps = {
@@ -14,12 +25,14 @@ declare module '@via-profit-services/permissions' {
     args: Record<string, unknown>;
     context: Context;
     info: GraphQLResolveInfo;
-  }
+  };
 
   export type PermissionsMap = Record<string, PermissionResolver>;
 
   export type PermissionResolverResponse = true | false | string;
-  export type PermissionResolver = (props: PermissionResolverProps) => MaybePromise<PermissionResolverResponse>;
+  export type PermissionResolver = (
+    props: PermissionResolverProps,
+  ) => MaybePromise<PermissionResolverResponse>;
   export type PermissionResolverAllow = () => PermissionResolver;
   export type PermissionResolverDeny = (message?: string) => PermissionResolver;
   export type PermissionResolverOR = (resolvers: PermissionResolver[]) => PermissionResolver;
@@ -34,13 +47,9 @@ declare module '@via-profit-services/permissions' {
   export const allow: PermissionResolverAllow;
   export const deny: PermissionResolverDeny;
 
-
-
-
-
   /**
-   * 
-   * 
+   *
+   *
    */
   type Args = Record<string, unknown>;
   export type Source = any;
@@ -75,20 +84,11 @@ declare module '@via-profit-services/permissions' {
     schema: GraphQLSchema,
     wrapper: ResolversWrapperFunction,
   ) => GraphQLSchema;
-
 }
 
-
 declare module '@via-profit-services/core' {
-
-  interface LoggersCollection {
-    /**
-     * Permissions logger \
-     * \
-     * Transports:
-     *  - `debug` - File transport
-     */
-    permissions: Logger;
+  interface CoreEmitter {
+    on(event: 'permissions-error', callback: (msg: string) => void): this;
+    once(event: 'permissions-error', callback: (msg: string) => void): this;
   }
-
 }

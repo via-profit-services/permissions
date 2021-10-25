@@ -17,6 +17,9 @@ const webpackProdConfig: Configuration = merge(webpackBaseConfig, {
     libraryTarget: 'commonjs2',
   },
   mode: 'production',
+  optimization: {
+    minimize: false,
+  },
   plugins: [
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.ANALYZE ? 'server' : 'disabled',
@@ -33,9 +36,8 @@ Contact    ${packageInfo.support}
     {
       apply: (compiler: Compiler) => {
         compiler.hooks.beforeRun.tapAsync('WebpackBeforeBuild', (_, callback) => {
-
           if (fs.existsSync(path.join(__dirname, '../dist/'))) {
-            fs.rmdirSync(path.join(__dirname, '../dist/'), { recursive: true })
+            fs.rmSync(path.join(__dirname, '../dist/'), { recursive: true });
           }
 
           callback();
@@ -48,7 +50,6 @@ Contact    ${packageInfo.support}
           );
           callback();
         });
-
       },
     },
   ],

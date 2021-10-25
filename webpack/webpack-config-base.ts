@@ -21,15 +21,7 @@ const webpackBaseConfig: Configuration = {
   resolve: {
     extensions: ['.ts', '.js', '.graphql'],
   },
-  externals: [
-    /^@via-profit-services\/core/,
-    /^moment$/,
-    /^moment-timezone$/,
-    /^dataloader$/,
-    /^winston$/,
-    /^graphql$/,
-    /^winston-daily-rotate-file$/,
-  ],
-}
+  externals: [/^@via-profit-services\/core/, /^dataloader$/, /^graphql$/],
+};
 
 export default webpackBaseConfig;
