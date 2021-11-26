@@ -46,6 +46,6 @@ const chain: PermissionResolverCHAIN = resolvers => async props => {
 };
 
 const allow: PermissionResolverAllow = () => () => true;
-const deny: PermissionResolverDeny = message => () => typeof message !== 'string' ? message : false;
+const deny: PermissionResolverDeny = message => () => typeof message === 'string' ? message : false;
 
 export { or, and, chain, allow, deny, not };
