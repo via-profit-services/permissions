@@ -72,6 +72,7 @@ declare module '@via-profit-services/permissions' {
   export const chain: PermissionResolverCHAIN;
   export const allow: PermissionResolverAllow;
   export const deny: PermissionResolverDeny;
+  export const not: PermissionResolverNOT;
 
   /**
    *
