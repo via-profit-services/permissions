@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { factory } from '@via-profit-services/core';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -9,27 +8,40 @@ import schema from './schema';
 
 dotenv.config();
 
-const PORT = 9005;
+const PORT = 8085;
 const app = express();
 const server = http.createServer(app);
 (async () => {
+  const isViewer = (props: any) => props.context.roles.includes('viewer');
+  const isAdmin = (props: any) => props.context.roles.includes('admin');
   const permissionsMiddleware = permissions.factory({
-    permissions: {
-      'Query.*': () => 'Reject of Query global',
-      'Query.core': () => true,
-    },
     enableIntrospection: true,
+    permissions: {
+      'User.login': () => true,
+      'User.password': permissions.or([isAdmin, permissions.not([isViewer])]),
+      // 'User.password': () => 'Not now',
+    },
   });
 
   const { graphQLExpress } = await factory({
     server,
     schema,
     debug: true,
-    middleware: [permissionsMiddleware],
+    middleware: [
+      ({ context }) => {
+        (context as any).roles = ['viewer', 'dsds'];
+
+        return {
+          context,
+        };
+      },
+      permissionsMiddleware,
+    ],
   });
 
   app.use('/graphql', graphQLExpress);
   server.listen(PORT, () => {
-    console.log(`GraphQL Server started at http://localhost:${PORT}/graphql`);
+    // eslint-disable-next-line no-console
+    console.info(`GraphQL Server started at http://localhost:${PORT}/graphql`);
   });
 })();

@@ -11,13 +11,39 @@ declare module '@via-profit-services/permissions' {
 
   export type Configuration = {
     permissions: PermissionsMap;
-    enableIntrospection?: boolean;
+
+    /**
+     * Boolean or a function that returns a boolean value.\
+     * If `true`, access to introspection is possible. Otherwise, no.\
+     * Default: `false`\
+     * \
+     * **Note**: - You cannot use promise as the return value of a function\
+     * Example:
+     * ```js
+     * // Access to introspection is denied to everyone
+     * const permissionsMiddleware = permissions.factory({
+     *   enableIntrospection: ({ context }) => process.env.NODE_ENV === 'development',
+     *   permissions: {
+     *     ...
+     *   },
+     * });
+     * ```
+     */
+    enableIntrospection?: IntrospectionProtectorGate | boolean;
   };
+  
   export type IntrospectionProtectorProps = {
     configuration: Configuration;
     context: Context;
   };
+
+  export type IntrospectionProtectorGateProps = {
+    context: Context;
+    permissions: PermissionsMap;
+  };
+
   export type IntrospectionProtector = (config: IntrospectionProtectorProps) => ValidationRule;
+  export type IntrospectionProtectorGate = (config: IntrospectionProtectorGateProps) => boolean;
   export type MiddlewareFactory = (config: Configuration) => Middleware;
 
   export type PermissionResolverProps = {
