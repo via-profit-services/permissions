@@ -1,130 +1,94 @@
 declare module '@via-profit-services/permissions' {
-  import { Middleware, MiddlewareProps, Context, MaybePromise } from '@via-profit-services/core';
-  import { ValidationRule, VisitFn, ASTNode, SelectionSetNode, ValidationContext } from 'graphql';
-  
-  export interface Configuration {
+  import { Middleware, Context, MaybePromise } from '@via-profit-services/core';
+  import {
+    GraphQLFieldResolver,
+    GraphQLResolveInfo,
+    ValidationRule,
+    GraphQLField,
+    GraphQLObjectType,
+    GraphQLSchema,
+  } from 'graphql';
 
-    /**
-     * Array of privileges to require as grant
-     */
-    requirePrivileges?: string[];
-
-    /**
-     * If `grant` then you will get access to the type if no permissions are set for it \
-     * Default: `restrict`
-     */
-    defaultAccess?: 'grant' | 'restrict';
-
-    /**
-     * Introspection control \
-     * Default: `false`
-     */
+  export type Configuration = {
+    permissions: PermissionsMap;
     enableIntrospection?: boolean;
-
-    /**
-     * Permissions map \
-     * For example:
-     * ```js
-     * {
-     *   'Query.books': {
-     *     grant: ['read.books'],
-     *     restrict: ['read.books'],
-     *   },
-     *   'Book.award': () => ({
-     *     grant: ['author'],
-     *   }),
-     * }
-     * ```
-     */
-    permissions?: Permissions;
-  }
-
-
-
-  export type Permissions = Record<string, PermissionsResolver>;
-
-  export type Privileges = string[];
-
-  export type PermissionsResolverObject = {
-    grant?: string[];
-    restrict?: string[];
   };
-
-  export type PermissionsResolverFunction = (
-    props: Required<ResolvePermissionsProps> & {
-      context: Context;
-    }
-  ) => PermissionsResolverObject;
-
-  export type PermissionsResolver = PermissionsResolverObject | PermissionsResolverFunction;
-  
-  export type PermissionsMiddlewareFactory = (config: Configuration) => Promise<Middleware>;
-
-   export type ValidatioRuleMiddleware = (props: {
+  export type IntrospectionProtectorProps = {
+    configuration: Configuration;
     context: Context;
-    config: MiddlewareProps['config'];
-  }) => MaybePromise<ValidationRule>;
-
-  export type ResolvePermissionsProps = {
-    typeName: string;
-    fieldName: string;
-    visitor: {
-      node: Parameters<VisitFn<ASTNode>>[0];
-      key: Parameters<VisitFn<ASTNode>>[1];
-      parent: Parameters<VisitFn<ASTNode>>[2];
-      path: Parameters<VisitFn<ASTNode>>[3];
-      ancestors: Parameters<VisitFn<ASTNode>>[4];
-      validationContext: ValidationContext;
-    };
   };
+  export type IntrospectionProtector = (config: IntrospectionProtectorProps) => ValidationRule;
+  export type MiddlewareFactory = (config: Configuration) => Middleware;
+
+  export type PermissionResolverProps = {
+    source: unknown;
+    args: Record<string, unknown>;
+    context: Context;
+    info: GraphQLResolveInfo;
+  };
+
+  export type PermissionsMap = Record<string, PermissionResolver>;
+
+  export type PermissionResolverResponse = true | false | string;
+  export type PermissionResolver = (
+    props: PermissionResolverProps,
+  ) => MaybePromise<PermissionResolverResponse>;
+  export type PermissionResolverAllow = () => PermissionResolver;
+  export type PermissionResolverDeny = (message?: string) => PermissionResolver;
+  export type PermissionResolverOR = (resolvers: PermissionResolver[]) => PermissionResolver;
+  export type PermissionResolverAND = (resolvers: PermissionResolver[]) => PermissionResolver;
+  export type PermissionResolverNOT = (resolvers: PermissionResolver[]) => PermissionResolver;
+  export type PermissionResolverCHAIN = (resolvers: PermissionResolver[]) => PermissionResolver;
+
+  export const factory: MiddlewareFactory;
+  export const or: PermissionResolverOR;
+  export const and: PermissionResolverAND;
+  export const chain: PermissionResolverCHAIN;
+  export const allow: PermissionResolverAllow;
+  export const deny: PermissionResolverDeny;
 
   /**
-   * Permissions service constructor props
+   *
+   *
    */
-  export interface PermissionsServiceProps {
+  type Args = Record<string, unknown>;
+  export type Source = any;
+
+  export type MutatedField = GraphQLField<Source, Context, Args> & Record<string, boolean>;
+  export type MutatedObjectType = GraphQLObjectType<Source, Context> & Record<string, boolean>;
+
+  export type FieldResolver = (
+    source: Source,
+    args: Args,
+    context: Context,
+    info: GraphQLResolveInfo,
+  ) => GraphQLFieldResolver<Source, Context, Args>;
+
+  export type ResolversWrapperFunction = (props: {
+    resolve: FieldResolver;
+    source: Source;
+    args: Args;
     context: Context;
-  }
+    info: GraphQLResolveInfo;
+  }) => MaybePromise<{
+    resolve?: FieldResolver;
+    source?: Source;
+    args?: Args;
+    context?: Context;
+    info?: GraphQLResolveInfo;
+  }>;
 
-  class PermissionsService {
-    props: PermissionsServiceProps;
-    permissions: Permissions;
-    privileges: Privileges;
-    requirePrivileges: Privileges;
-    defaultAccess: 'grant' | 'restrict';
-    enableIntrospection: boolean;
+  export type NoopResolver = GraphQLFieldResolver<Source, Context, Args>;
 
-    constructor(props: PermissionsServiceProps);
-
-    resolvePermissions(props: ResolvePermissionsProps): boolean;
-  }
-
-  export const INTROSPECTION_FIELDS: string[];
-  export const ASTERISK: '*';
-  export const factory: PermissionsMiddlewareFactory;
+  export type ResolversWrapper = (
+    schema: GraphQLSchema,
+    wrapper: ResolversWrapperFunction,
+  ) => GraphQLSchema;
 }
 
-
 declare module '@via-profit-services/core' {
-  import { PermissionsService, Permissions, Privileges } from '@via-profit-services/permissions';
-  
-  interface ServicesCollection {
-
-    /**
-     * Permissions service
-     */
-    permissions: PermissionsService;
+  interface CoreEmitter {
+    on(event: 'permissions-error', callback: (msg: string) => void): this;
+    once(event: 'permissions-error', callback: (msg: string) => void): this;
   }
-  
-
-  interface LoggersCollection {
-    /**
-     * Permissions logger \
-     * \
-     * Transports:
-     *  - `debug` - File transport
-     *  - `error` - Console transport
-     */
-    permissions: Logger;
-  }
-
 }

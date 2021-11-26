@@ -1,45 +1,84 @@
-import { Middleware } from '@via-profit-services/core';
-import type { Configuration, PermissionsMiddlewareFactory } from '@via-profit-services/permissions';
+import { Middleware, Context } from '@via-profit-services/core';
+import type {
+  MiddlewareFactory,
+  PermissionResolverResponse,
+} from '@via-profit-services/permissions';
+import { isObjectType, isIntrospectionType, GraphQLResolveInfo, GraphQLFieldMap } from 'graphql';
 
-import contextMiddleware from './context-middleware';
-import validationRuleMiddleware from './validation-rule-middleware';
+import introspectionProtector from './introspection-protector';
 
-const accountsMiddlewareFactory: PermissionsMiddlewareFactory = async (props) => {
+const factory: MiddlewareFactory = configuration => {
+  const { permissions } = configuration;
+  const AFFECTED_MARKER_SYMBOL = Symbol('Marker');
+  const middleware: Middleware = ({ schema, context }) => {
+    const types = schema.getTypeMap();
+    const noopResolve = async (
+      parent: any,
+      _args: any,
+      _context: Context,
+      info: GraphQLResolveInfo,
+    ) => (parent ? parent[info.fieldName] : undefined);
 
-  const configuration: Required<Configuration> = {
-    permissions: {},
-    requirePrivileges: [],
-    enableIntrospection: false, // default value
-    defaultAccess: 'restrict', // default value
-    ...props,
-  }
+    Object.entries(types).forEach(([typeName, type]) => {
+      if (isObjectType(type) && !isIntrospectionType(type)) {
+        const fields = type.getFields() as GraphQLFieldMap<any, Context>;
+        Object.entries(fields).forEach(([fieldName, field]) => {
+          if ((field as any)[AFFECTED_MARKER_SYMBOL]) {
+            return;
+          }
 
+          if (permissions?.[`${typeName}.${fieldName}`] || permissions?.[`${typeName}.*`]) {
+            const { resolve } = field;
+            const originalResolver = resolve || noopResolve;
+            field.resolve = async (source, args, context, info) => {
+              const defaultGrant = true;
+              const results: PermissionResolverResponse[] = [defaultGrant];
 
-  const pool: ReturnType<Middleware> = {
-    context: null,
-    validationRule: null,
+              await Object.entries(permissions || {}).reduce(async (prev, [keyPath, reule]) => {
+                await prev;
+
+                if (keyPath === `${typeName}.${fieldName}` || keyPath === `${typeName}.*`) {
+                  const keyPathRes = await reule({
+                    source,
+                    args,
+                    context,
+                    info,
+                  });
+
+                  results.push(keyPathRes);
+                }
+              }, Promise.resolve());
+
+              const result = results.reverse()[0];
+
+              if (result !== true) {
+                const message = [`Permission denied for key «${typeName}.${fieldName}».`];
+                if (typeof result === 'string') {
+                  message.push(result);
+                }
+
+                context.emitter.emit('permissions-error', message.join(' '));
+                throw new Error(message.join(' '));
+              }
+
+              return await originalResolver(source, args, context, info);
+            };
+            (field as any)[AFFECTED_MARKER_SYMBOL] = true;
+          }
+        });
+      }
+    });
+
+    const retData: ReturnType<Middleware> = {
+      validationRule: introspectionProtector({ configuration, context }),
+      context,
+      schema,
+    };
+
+    return retData;
   };
 
-  const middleware: Middleware = async (props) => {
-
-    const { context } = props;
-
-    // define static context at once
-    pool.context = pool.context ?? await contextMiddleware({
-      config: props.config,
-      context: context,
-      configuration,
-    });
-
-    pool.validationRule = await validationRuleMiddleware({
-      context: pool.context,
-      config: props.config,
-    });
-
-    return pool;
-  }
-
   return middleware;
-}
+};
 
-export default accountsMiddlewareFactory;
+export default factory;
