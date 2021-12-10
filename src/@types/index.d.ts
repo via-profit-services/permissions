@@ -17,7 +17,7 @@ declare module '@via-profit-services/permissions' {
      * If `true`, access to introspection is possible. Otherwise, no.\
      * Default: `false`\
      * \
-     * **Note**: - You cannot use promise as the return value of a function\
+     * **Note**: You cannot use promise as the return value of a function\
      * Example:
      * ```js
      * // Access to introspection is denied to everyone

@@ -17,9 +17,8 @@ const server = http.createServer(app);
   const permissionsMiddleware = permissions.factory({
     enableIntrospection: true,
     permissions: {
-      'User.login': () => true,
-      'User.password': permissions.or([isAdmin, permissions.not([isViewer])]),
-      // 'User.password': () => 'Not now',
+      'User.*': () => false,
+      'User.name': () => true,
     },
   });
 
