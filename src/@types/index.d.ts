@@ -115,7 +115,15 @@ declare module '@via-profit-services/permissions' {
 
 declare module '@via-profit-services/core' {
   interface CoreEmitter {
-    on(event: 'permissions-error', callback: (msg: string) => void): this;
-    once(event: 'permissions-error', callback: (msg: string) => void): this;
+    on(event: 'permissions-error', listener: (msk: string) => void): this;
+    once(event: 'permissions-error', listener: (msk: string) => void): this;
+    addListener(event: 'permissions-error', listener: (msk: string) => void): this;
+    removeListener(event: 'permissions-error', listener: (msk: string) => void): this;
+    prependListener(event: 'permissions-error', listener: (msk: string) => void): this;
+    prependOnceListener(event: 'permissions-error', listener: (msk: string) => void): this;
+    emit(event: 'permissions-error', ...args: Parameters<(msk: string) => void>): boolean;
+    removeAllListeners(event: 'permissions-error'): this;
+    listeners(event: 'permissions-error'): Function[];
+    listenerCount(event: 'permissions-error'): number;
   }
 }

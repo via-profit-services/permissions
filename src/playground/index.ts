@@ -1,10 +1,11 @@
-import { factory } from '@via-profit-services/core';
+import { graphqlExpressFactory } from '@via-profit-services/core';
 import dotenv from 'dotenv';
 import express from 'express';
 import http from 'http';
 
 import * as permissions from '../index';
 import schema from './schema';
+import graphiql from './graphiql';
 
 dotenv.config();
 
@@ -18,29 +19,46 @@ const server = http.createServer(app);
     enableIntrospection: true,
     permissions: {
       'User.*': () => false,
+      'User.id': () => true,
       'User.name': () => true,
     },
   });
 
-  const { graphQLExpress } = await factory({
-    server,
+  const graphQLExpress = await graphqlExpressFactory({
     schema,
     debug: true,
     middleware: [
       ({ context }) => {
         (context as any).roles = ['viewer', 'dsds'];
-
-        return {
-          context,
-        };
       },
       permissionsMiddleware,
     ],
   });
 
   app.use('/graphql', graphQLExpress);
+  app.use(
+    '/',
+    graphiql({
+      query: `query UsersList {
+  users {
+    name
+  }
+}
+
+query UsersListWithDeniedField {
+  users {
+    id
+    name
+    login # Access to this field is denied
+    password # Access to this field is denied
+  }
+}`,
+      variables: {},
+      endpoint: '/graphql',
+    }),
+  );
   server.listen(PORT, () => {
     // eslint-disable-next-line no-console
-    console.info(`GraphQL Server started at http://localhost:${PORT}/graphql`);
+    console.info(`GraphQL Playground started at http://localhost:${PORT}/`);
   });
 })();

@@ -3,14 +3,25 @@ import type {
   MiddlewareFactory,
   PermissionResolverResponse,
 } from '@via-profit-services/permissions';
-import { isObjectType, isIntrospectionType, GraphQLResolveInfo, GraphQLFieldMap } from 'graphql';
+import {
+  isObjectType,
+  isIntrospectionType,
+  GraphQLResolveInfo,
+  GraphQLFieldMap,
+  ValidationRule,
+} from 'graphql';
 
-import introspectionProtector from './introspection-protector';
+import introspectionProtectorFactory from './introspection-protector';
 
 const factory: MiddlewareFactory = configuration => {
   const { permissions } = configuration;
   const AFFECTED_MARKER_SYMBOL = Symbol('Marker');
-  const middleware: Middleware = ({ schema, context }) => {
+  let introspectionProtector: ValidationRule;
+  const middleware: Middleware = ({ schema, context, validationRule }) => {
+    if (!introspectionProtector) {
+      introspectionProtector = introspectionProtectorFactory({ configuration, context });
+      validationRule.push(introspectionProtector);
+    }
     const types = schema.getTypeMap();
     const noopResolve = async (
       parent: any,
@@ -68,14 +79,6 @@ const factory: MiddlewareFactory = configuration => {
         });
       }
     });
-
-    const retData: ReturnType<Middleware> = {
-      validationRule: introspectionProtector({ configuration, context }),
-      context,
-      schema,
-    };
-
-    return retData;
   };
 
   return middleware;
