@@ -13,8 +13,8 @@ const PORT = 8085;
 const app = express();
 const server = http.createServer(app);
 (async () => {
-  const isViewer = (props: any) => props.context.roles.includes('viewer');
-  const isAdmin = (props: any) => props.context.roles.includes('admin');
+  // const isViewer = (props: any) => props.context.roles.includes('viewer');
+  // const isAdmin = (props: any) => props.context.roles.includes('admin');
   const permissionsMiddleware = permissions.factory({
     enableIntrospection: true,
     permissions: {
