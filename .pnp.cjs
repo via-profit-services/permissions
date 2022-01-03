@@ -44,9 +44,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/webpack-node-externals", "npm:2.5.3"],
             ["@typescript-eslint/eslint-plugin", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:5.1.0"],
             ["@typescript-eslint/parser", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:5.1.0"],
-            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#file://home/dhs/Projects/@via-profit-services/core/package-2.2.0-rc.11.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A."],
+            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:2.2.0-rc.18"],
             ["@via-profit-services/eslint-config", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:0.1.19"],
-            ["busboy", "npm:1.0.0"],
+            ["busboy", "npm:0.3.1"],
             ["cross-env", "npm:6.0.3"],
             ["dotenv", "npm:8.6.0"],
             ["eslint", "npm:7.32.0"],
@@ -59,7 +59,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-promise", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:5.1.0"],
             ["eslint-plugin-react", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:7.26.1"],
             ["express", "npm:4.17.1"],
-            ["fs-capacitor", "npm:7.0.1"],
             ["graphql", "npm:16.2.0"],
             ["nodemon", "npm:2.0.14"],
             ["nodemon-webpack-plugin", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:4.5.2"],
@@ -703,21 +702,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@via-profit-services/core", [
-        ["file://home/dhs/Projects/@via-profit-services/core/package-2.2.0-rc.11.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A.", {
-          "packageLocation": "./.yarn/cache/@via-profit-services-core-file-3a3afb7078-a95dc82f19.zip/node_modules/@via-profit-services/core/",
+        ["npm:2.2.0-rc.18", {
+          "packageLocation": "./.yarn/cache/@via-profit-services-core-npm-2.2.0-rc.18-8e1bead701-6857c72036.zip/node_modules/@via-profit-services/core/",
           "packageDependencies": [
-            ["@via-profit-services/core", "file://home/dhs/Projects/@via-profit-services/core/package-2.2.0-rc.11.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A."]
+            ["@via-profit-services/core", "npm:2.2.0-rc.18"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#file://home/dhs/Projects/@via-profit-services/core/package-2.2.0-rc.11.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A.", {
-          "packageLocation": "./.yarn/__virtual__/@via-profit-services-core-virtual-431c40a3c8/0/cache/@via-profit-services-core-file-3a3afb7078-a95dc82f19.zip/node_modules/@via-profit-services/core/",
+        ["virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:2.2.0-rc.18", {
+          "packageLocation": "./.yarn/__virtual__/@via-profit-services-core-virtual-f765edf9ce/0/cache/@via-profit-services-core-npm-2.2.0-rc.18-8e1bead701-6857c72036.zip/node_modules/@via-profit-services/core/",
           "packageDependencies": [
-            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#file://home/dhs/Projects/@via-profit-services/core/package-2.2.0-rc.11.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A."],
+            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:2.2.0-rc.18"],
             ["@types/busboy", null],
             ["@types/graphql", null],
             ["bufferutil", "npm:4.0.5"],
-            ["busboy", "npm:1.0.0"],
+            ["busboy", "npm:0.3.1"],
             ["graphql", "npm:16.2.0"],
             ["raw-body", "npm:2.4.2"],
             ["utf-8-validate", "npm:5.0.7"]
@@ -805,9 +804,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/webpack-node-externals", "npm:2.5.3"],
             ["@typescript-eslint/eslint-plugin", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:5.1.0"],
             ["@typescript-eslint/parser", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:5.1.0"],
-            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#file://home/dhs/Projects/@via-profit-services/core/package-2.2.0-rc.11.tgz::locator=%40via-profit-services%2Fpermissions%40workspace%3A."],
+            ["@via-profit-services/core", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:2.2.0-rc.18"],
             ["@via-profit-services/eslint-config", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:0.1.19"],
-            ["busboy", "npm:1.0.0"],
+            ["busboy", "npm:0.3.1"],
             ["cross-env", "npm:6.0.3"],
             ["dotenv", "npm:8.6.0"],
             ["eslint", "npm:7.32.0"],
@@ -820,7 +819,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-promise", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:5.1.0"],
             ["eslint-plugin-react", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:7.26.1"],
             ["express", "npm:4.17.1"],
-            ["fs-capacitor", "npm:7.0.1"],
             ["graphql", "npm:16.2.0"],
             ["nodemon", "npm:2.0.14"],
             ["nodemon-webpack-plugin", "virtual:9a1ba1a09db0d27b2786d44ec9d63c11d987059642cb886116ada7c24068f83f7ce02033538ee4dcded58553aa94d9ab5f328ebd02b750ad32d163ec2b5ee2ac#npm:4.5.2"],
@@ -1571,11 +1569,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["busboy", [
-        ["npm:1.0.0", {
-          "packageLocation": "./.yarn/cache/busboy-npm-1.0.0-c1b4c85e1a-b1bd079669.zip/node_modules/busboy/",
+        ["npm:0.3.1", {
+          "packageLocation": "./.yarn/cache/busboy-npm-0.3.1-87ec0dae5a-d2bcb788c4.zip/node_modules/busboy/",
           "packageDependencies": [
-            ["busboy", "npm:1.0.0"],
-            ["streamsearch", "npm:1.1.0"]
+            ["busboy", "npm:0.3.1"],
+            ["dicer", "npm:0.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -2134,6 +2132,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/destroy-npm-1.0.4-a2203e01cb-da9ab4961d.zip/node_modules/destroy/",
           "packageDependencies": [
             ["destroy", "npm:1.0.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["dicer", [
+        ["npm:0.3.0", {
+          "packageLocation": "./.yarn/cache/dicer-npm-0.3.0-ef4dcd1bb9-9f61aea61f.zip/node_modules/dicer/",
+          "packageDependencies": [
+            ["dicer", "npm:0.3.0"],
+            ["streamsearch", "npm:0.1.2"]
           ],
           "linkType": "HARD",
         }]
@@ -3121,15 +3129,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/fresh-npm-0.5.2-ad2bb4c0a2-13ea8b08f9.zip/node_modules/fresh/",
           "packageDependencies": [
             ["fresh", "npm:0.5.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["fs-capacitor", [
-        ["npm:7.0.1", {
-          "packageLocation": "./.yarn/cache/fs-capacitor-npm-7.0.1-725ca0f65d-caee0ef4ae.zip/node_modules/fs-capacitor/",
-          "packageDependencies": [
-            ["fs-capacitor", "npm:7.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -5837,10 +5836,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["streamsearch", [
-        ["npm:1.1.0", {
-          "packageLocation": "./.yarn/cache/streamsearch-npm-1.1.0-fc3ad6536d-1cce16cea8.zip/node_modules/streamsearch/",
+        ["npm:0.1.2", {
+          "packageLocation": "./.yarn/cache/streamsearch-npm-0.1.2-813180eb1c-d2db57cbfb.zip/node_modules/streamsearch/",
           "packageDependencies": [
-            ["streamsearch", "npm:1.1.0"]
+            ["streamsearch", "npm:0.1.2"]
           ],
           "linkType": "HARD",
         }]
