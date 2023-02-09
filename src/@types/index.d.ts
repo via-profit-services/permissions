@@ -17,7 +17,7 @@ declare module '@via-profit-services/permissions' {
      * If `true`, access to introspection is possible. Otherwise, no.\
      * Default: `false`\
      * \
-     * **Note**: - You cannot use promise as the return value of a function\
+     * **Note**: You cannot use promise as the return value of a function\
      * Example:
      * ```js
      * // Access to introspection is denied to everyone
@@ -115,7 +115,15 @@ declare module '@via-profit-services/permissions' {
 
 declare module '@via-profit-services/core' {
   interface CoreEmitter {
-    on(event: 'permissions-error', callback: (msg: string) => void): this;
-    once(event: 'permissions-error', callback: (msg: string) => void): this;
+    on(event: 'permissions-error', listener: (msk: string) => void): this;
+    once(event: 'permissions-error', listener: (msk: string) => void): this;
+    addListener(event: 'permissions-error', listener: (msk: string) => void): this;
+    removeListener(event: 'permissions-error', listener: (msk: string) => void): this;
+    prependListener(event: 'permissions-error', listener: (msk: string) => void): this;
+    prependOnceListener(event: 'permissions-error', listener: (msk: string) => void): this;
+    emit(event: 'permissions-error', ...args: Parameters<(msk: string) => void>): boolean;
+    removeAllListeners(event: 'permissions-error'): this;
+    listeners(event: 'permissions-error'): Function[];
+    listenerCount(event: 'permissions-error'): number;
   }
 }
