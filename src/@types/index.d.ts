@@ -22,7 +22,7 @@ declare module '@via-profit-services/permissions' {
      * ```js
      * // Access to introspection is denied to everyone
      * const permissionsMiddleware = permissions.factory({
-     *   enableIntrospection: ({ context }) => process.env.NODE_ENV === 'development',
+     *   enableIntrospection: () => process.env.NODE_ENV === 'development',
      *   permissions: {
      *     ...
      *   },
