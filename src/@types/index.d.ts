@@ -31,19 +31,16 @@ declare module '@via-profit-services/permissions' {
      */
     enableIntrospection?: IntrospectionProtectorGate | boolean;
   };
-  
+
   export type IntrospectionProtectorProps = {
     configuration: Configuration;
     context: Context;
   };
 
-  export type IntrospectionProtectorGateProps = {
-    context: Context;
-    permissions: PermissionsMap;
-  };
-
-  export type IntrospectionProtector = (config: IntrospectionProtectorProps) => ValidationRule;
-  export type IntrospectionProtectorGate = (config: IntrospectionProtectorGateProps) => boolean;
+  export type IntrospectionProtector = (
+    enableIntrospection: IntrospectionProtectorGate | boolean,
+  ) => ValidationRule;
+  export type IntrospectionProtectorGate = () => boolean;
   export type MiddlewareFactory = (config: Configuration) => Middleware;
 
   export type PermissionResolverProps = {
@@ -52,6 +49,11 @@ declare module '@via-profit-services/permissions' {
     context: Context;
     info: GraphQLResolveInfo;
   };
+
+  export type InjectPermissionProtector = (
+    schema: GraphQLSchema,
+    permissions: PermissionsMap,
+  ) => void;
 
   export type PermissionsMap = Record<string, PermissionResolver>;
 
@@ -73,6 +75,9 @@ declare module '@via-profit-services/permissions' {
   export const allow: PermissionResolverAllow;
   export const deny: PermissionResolverDeny;
   export const not: PermissionResolverNOT;
+
+  export const introspectionProtector: IntrospectionProtector;
+  export const injectPermissionProtector: InjectPermissionProtector;
 
   /**
    *
@@ -111,19 +116,4 @@ declare module '@via-profit-services/permissions' {
     schema: GraphQLSchema,
     wrapper: ResolversWrapperFunction,
   ) => GraphQLSchema;
-}
-
-declare module '@via-profit-services/core' {
-  interface CoreEmitter {
-    on(event: 'permissions-error', listener: (msk: string) => void): this;
-    once(event: 'permissions-error', listener: (msk: string) => void): this;
-    addListener(event: 'permissions-error', listener: (msk: string) => void): this;
-    removeListener(event: 'permissions-error', listener: (msk: string) => void): this;
-    prependListener(event: 'permissions-error', listener: (msk: string) => void): this;
-    prependOnceListener(event: 'permissions-error', listener: (msk: string) => void): this;
-    emit(event: 'permissions-error', ...args: Parameters<(msk: string) => void>): boolean;
-    removeAllListeners(event: 'permissions-error'): this;
-    listeners(event: 'permissions-error'): Function[];
-    listenerCount(event: 'permissions-error'): number;
-  }
 }

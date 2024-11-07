@@ -9,22 +9,6 @@ import {
 
 import users from './users';
 
-/**
- * Simple GraphQL schema
- *
- * SDL of this schema:
- * ```graphql
- * type Query {
- *   users: [User]!
- *   user(id: ID!): User
- * }
- *
- * type User {
- *   id: ID!
- *   name: String!
- * }
- * ```
- */
 const User = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
@@ -40,8 +24,8 @@ const schema = new GraphQLSchema({
     name: 'Query',
     fields: () => ({
       users: {
-        type: new GraphQLNonNull(new GraphQLList(User)),
-        resolve: async (_parent, _args, _context) => users,
+        type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(User))),
+        resolve: () => users,
       },
       user: {
         type: User,
